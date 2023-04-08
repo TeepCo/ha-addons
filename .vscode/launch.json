@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Cumulus client",
+            "type": "python",
+            "request": "launch",
+            "cwd": "${workspaceFolder}/cumulus/rootfs/opt",
+            "env": {
+                "ENV_BUILD_VERSION": "dev",
+                "ENV_HA_IP_ADDRESS": "localhost",
+                "ENV_HA_PORT": "8000"
+            },
+            "module": "cumulus",
+            "args": [
+                "-c", "/dev_env/cumulus-addon"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,46 @@
+{
+    "name": "TeepCo Home Assistant add-on repository",
+    "build": {
+      "dockerfile": "Dockerfile",
+      "context": "..",
+      "args": {
+        "PYTHON_VERSION": "3.11.3"
+      }
+    },
+    "appPort": ["7123:8123", "7357:4357"],
+    "postStartCommand": "bash devcontainer_bootstrap",
+    "runArgs": ["-e", "GIT_EDITOR=code --wait", "--privileged"],
+    "remoteUser":"root",
+    "containerEnv": {
+      "WORKSPACE_DIRECTORY": "${containerWorkspaceFolder}"
+    },
+    "extensions": [
+      "timonwong.shellcheck",
+      "esbenp.prettier-vscode",
+      "ms-python.python",
+      "ms-python.vscode-pylance"
+    ],
+    "mounts": [
+      "type=volume,target=/var/lib/docker",
+      "type=bind,source=${localWorkspaceFolder}/../.dev_env,target=/dev_env"
+    ],
+    "settings": {
+      "terminal.integrated.profiles.linux": {
+        "zsh": {
+          "path": "/usr/bin/zsh"
+        }
+      },
+      "terminal.integrated.profiles.osx": {
+        "zsh": {
+          "path": "/bin/zsh",
+          "args": ["-l"]
+        }
+      },
+      "terminal.integrated.defaultProfile.linux": "zsh",
+      "terminal.integrated.defaultProfile.osx": "zsh",
+      "editor.formatOnPaste": false,
+      "editor.formatOnSave": false,
+      "editor.formatOnType": true,
+      "files.trimTrailingWhitespace": true
+    }
+  }

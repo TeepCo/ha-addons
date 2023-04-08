@@ -1,0 +1,18 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Home Assistant Add-on: Cumulus
+# Starts Cumulus client
+# ==============================================================================
+
+export ENV_HA_IP_ADDRESS=$(bashio::core 'core.ip_address' '.ip_address')
+export ENV_HA_PORT=$(bashio::core.port)
+export ENV_HA_SSL=$(bashio::core.ssl)
+export ENV_BUILD_VERSION=$(bashio::addon.version)
+
+bashio::net.wait_for $ENV_HA_PORT $ENV_HA_IP_ADDRESS
+
+cd /opt || bashio::exit.nok "Could not change directory to Cumulus"
+
+bashio::log.info "Starting addon..."
+exec python3 -m cumulus
