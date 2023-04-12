@@ -21,7 +21,11 @@ def validate_python() -> None:
 
 
 def setup_logging(level: str) -> None:
-    logging.basicConfig(stream=sys.stdout, level=level.upper())
+    logging.basicConfig(
+        stream=sys.stdout,
+        level=level.upper(),
+        format="%(asctime)s %(levelname)5s %(name)s:%(lineno)s %(message)s"
+    )
 
 
 def get_arguments() -> argparse.Namespace:

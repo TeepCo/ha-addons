@@ -85,4 +85,4 @@ class MessagingService:
         """
         await asyncio.sleep(_RECONNECT_DELAY)
         _LOGGER.debug("Reconnect")
-        self._cumulus.create_task(self.async_run())
+        self._cumulus.create_task(self.run())

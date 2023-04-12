@@ -20,6 +20,12 @@
         "type": "shell",
         "command": "pip3.11 install -r /workspaces/ha-addons/cumulus/requirements.txt && cp -r /dev_env/cumulus-addon/.ssh /root",
         "problemMatcher": []
+      },
+      {
+        "label": "Update versions",
+        "type": "shell",
+        "command": "source /workspaces/ha-addons/.vscode/tools/update_versions.sh",
+        "problemMatcher": []
       }
     ]
   }

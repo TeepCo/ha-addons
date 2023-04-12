@@ -1,15 +1,14 @@
 """Handle ssh tunnel between home assistant and cloud."""
 import logging
 import os
-import subprocess
 import sys
 import asyncio
 import time
-from subprocess import Popen
 
 from cryptography.hazmat.primitives import serialization as crypto_serialization
 from cryptography.hazmat.primitives.asymmetric.ed25519 import Ed25519PrivateKey
 
+from cumulus.messages.message_client import RefreshStatus
 from cumulus.const import REFRESH_KEYS_AFTER_DAYS
 
 _LOGGER = logging.getLogger(__name__)
@@ -75,6 +74,8 @@ class TunnelService:
             f"{self._ssh_user}@{self._ssh_host}",
         ]
 
+        await self._cumulus.msg.send(RefreshStatus())
+
         self._process = await asyncio.create_subprocess_exec(
             "autossh", *args,
             stdout=asyncio.subprocess.PIPE,
@@ -83,9 +84,6 @@ class TunnelService:
         )
 
         while self._process.returncode is None:
-            # if self._process.stdout.at_eof() and self._process.stderr.at_eof():
-            #     break
-
             log = await self._process.stdout.readline()
             if not log:
                 break
@@ -106,51 +104,6 @@ class TunnelService:
             self._process_terminated = True
             self._process.terminate()
             await self._process.wait()
-
-    # async def _open_tunnel(self):
-    #     _LOGGER.debug(
-    #         "Setup and open ssh tunnel to host=%s with user=%s, port=%d and forwarding_port=%d",
-    #         self._ssh_host, self._ssh_user, self._ssh_port, self._forwarding_port)
-
-    #     local_ip = self._cumulus.config.ha_ip_address
-    #     local_port = self._cumulus.config.ha_port
-    #     cmd = [
-    #         "autossh", "-M", "0", "-vTN", "-4",
-    #         "-p", str(self._ssh_port),
-    #         "-R", f"{self._forwarding_port}:{local_ip}:{local_port}",
-    #         f"{self._ssh_user}@{self._ssh_host}",
-    #     ]
-
-    #     self._process = Popen(
-    #         cmd,
-    #         stdout=subprocess.PIPE,
-    #         stderr=subprocess.STDOUT,
-    #         process_group=0
-    #     )
-
-    #     while self._process.returncode is None:
-    #         # TODO: zjistit kde presne poslat `await self.send(RefreshStatus())`
-    #         #  asi tady ale az pri druhem pruchodu, jelikoz by bylo vhodne nejdriv vsechno precist
-    #         #  a mit aspon nejakou jistotu ze se to pripojilo, nebo budu vedet podle nejakyho logu ze se to pripojilo?
-    #         # problem ze zadny druhy pruchod neni, cykli to na ty stdout line
-    #         for line in self._process.stdout:
-    #             TunnelService._ssh_log(line)
-    #         self._process.poll()
-
-    #     if self._process.returncode == 0 or self._process_terminated:
-    #         _LOGGER.info("SSH tunnel successfully exited")
-    #     else:
-    #         _LOGGER.warning("SSH tunnel exited with code=%d", self._process.returncode)
-    #         self._process = None
-    #         await self._cumulus.stop(1)
-
-    # def _shutdown(self) -> None:
-    #     if self._process is not None:
-    #         _LOGGER.debug("Terminate ssh process")
-    #         self._process_terminated = True
-    #         self._process.terminate()
-    #         self._process.wait(5)
-
 
     @staticmethod
     def _ssh_log(line: bytes) -> None:
