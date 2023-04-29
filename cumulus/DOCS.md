@@ -19,7 +19,7 @@ comparison to installing any other Home Assistant add-on.
    [![Open this add-on in your Home Assistant instance.][addon-badge]][addon]
 
 2. Click the "Install" button to install the add-on.
-3. Configure add-on required settings (`server_url`, `home_key` and `home_secret`)
+3. Configure add-on required settings (`server_url`, `client_id` and `client_secret`)
 4. Start the "Cumulus" add-on.
 5. Check the logs of the "Cumulus" to see if everything went well.
 6. Change Home Assistant `http` configuration in **configuration.yaml** file
@@ -38,9 +38,9 @@ comparison to installing any other Home Assistant add-on.
 Example add-on configuration:
 
 ```yaml
-server_url: wss://cloud.teepco.cz/cumulus
-home_key: ea7d85e5-c144-4d61-9b04-4cc965d13981
-home_secret: oTSXzX18KnZZILMc/Q/Jnzff3l0qThlQj1jYP5l9EiY=
+server_url: wss://cumulus.teepco.cz
+client_id: ea7d85e5-c144-4d61-9b04-4cc965d13981
+client_secret: oTSXzX18KnZZILMc/Q/Jnzff3l0qThlQj1jYP5l9EiY=
 log_level: debug
 ```
 
@@ -50,11 +50,11 @@ log_level: debug
 
 The url for web-socket connection to cloud server. Check your cloud account to get this value.
 
-### Option: `home_key`
+### Option: `client_id`
 
 The identifier for your client instance on cloud server.
 
-### Option: `home_secret`
+### Option: `client_secret`
 
 The connection secret for your client instance on cloud server.
 

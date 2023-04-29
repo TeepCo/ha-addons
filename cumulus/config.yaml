@@ -1,5 +1,5 @@
 name: Cumulus
-version: "0.1.1"
+version: "0.2.0"
 slug: cumulus
 description: Use a TeepCo Cumulus Cloud tunnel to remotely connect to Home Assistant without opening any ports
 url: https://github.com/teepco/ha-addons/tree/main/cumulus
@@ -17,10 +17,10 @@ homeassistant_api: true
 auth_api: true
 options:
   server_url: null
-  home_key: null
-  home_secret: null
+  client_id: null
+  client_secret: null
 schema:
   server_url: url
-  home_key: str
-  home_secret: password
+  client_id: str
+  client_secret: password
   log_level: list(critical|error|warning|info|debug)?

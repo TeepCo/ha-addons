@@ -12,8 +12,8 @@ class CumulusConfig:
     config_dir: Path
     log_level: str
     server_url: str
-    home_instance_key: str
-    home_instance_secret: Ed25519PrivateKey
+    client_id: str
+    client_secret: Ed25519PrivateKey
     ha_ip_address: str
     ha_port: str
     version: str
@@ -29,8 +29,8 @@ class CumulusConfig:
             config = json.load(config_file)
             self.log_level = config.get("log_level", "info")
             self.server_url = config["server_url"]
-            self.home_instance_key = config["home_key"]
-            self.home_instance_secret = Ed25519PrivateKey.from_private_bytes(base64.b64decode(config["home_secret"]))
+            self.client_id = config["client_id"]
+            self.client_secret = Ed25519PrivateKey.from_private_bytes(base64.b64decode(config["client_secret"]))
 
         self.ha_ip_address = os.environ["ENV_HA_IP_ADDRESS"]
         self.ha_port = os.environ["ENV_HA_PORT"]
@@ -38,7 +38,7 @@ class CumulusConfig:
 
     def sign_data(self, data: str) -> str:
         ascii_data = data.encode("ascii")
-        signed_key = self.home_instance_secret.sign(ascii_data)
+        signed_key = self.client_secret.sign(ascii_data)
         encoded_key = base64.b64encode(signed_key)
 
         return encoded_key.decode("ascii")

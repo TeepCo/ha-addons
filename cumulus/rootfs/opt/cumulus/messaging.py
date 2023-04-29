@@ -4,6 +4,7 @@ import logging
 
 import websockets
 
+from urllib.parse import urljoin
 from websockets import WebSocketClientProtocol
 from cumulus.messages import parse_message
 from cumulus.messages.message_client import AuthMessage, ClientMessage, RefreshStatus
@@ -27,7 +28,7 @@ class MessagingService:
         """
         Connect to server websocket and handle communication.
         """
-        url = self._cumulus.config.server_url
+        url = urljoin(self._cumulus.config.server_url, "/tun")
 
         async with websockets.connect(url, logger=_LOGGER, ping_interval=None) as websocket:
             try:
@@ -73,7 +74,7 @@ class MessagingService:
         """
         Send authentication message.
         """
-        key = self._cumulus.config.home_instance_key
+        key = self._cumulus.config.client_id
         sign = self._cumulus.config.sign_data(key)
         version = self._cumulus.config.version
 
