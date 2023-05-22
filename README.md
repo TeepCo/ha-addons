@@ -32,7 +32,7 @@ This repository contains the following add-ons
 
 Client for TeepCo Cumulus Cloud
 
-[cumulus-version-shield]: https://img.shields.io/badge/version-v0.2.0-blue.svg
+[cumulus-version-shield]: https://img.shields.io/badge/version-v0.2.1-blue.svg
 [license-shield]: https://img.shields.io/github/license/teepco/ha-addons.svg
 [maintenance-shield]: https://img.shields.io/maintenance/yes/2023.svg
 [aarch64-shield]: https://img.shields.io/badge/aarch64-yes-green.svg
