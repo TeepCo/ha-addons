@@ -145,10 +145,11 @@ class CumulusEventLoopPolicy(asyncio.DefaultEventLoopPolicy):
         return loop
 
 
-def _async_loop_exception_handler(_: Any, context: dict[str, Any]) -> None:
+def _async_loop_exception_handler(loop: asyncio.AbstractEventLoop, context: dict[str, Any]) -> None:
     """
     Handle all exception inside the core loop.
     """
+
     kwargs = {}
     if exception := context.get("exception"):
         kwargs["exc_info"] = (type(exception), exception, exception.__traceback__)
@@ -156,8 +157,10 @@ def _async_loop_exception_handler(_: Any, context: dict[str, Any]) -> None:
     if source_traceback := context.get("source_traceback"):
         stack_summary = "".join(traceback.format_list(source_traceback))
         _LOGGER.error("Error doing job: %s: %s", context["message"], stack_summary, **kwargs)
+        loop.stop()
         return
 
+    loop.stop()
     _LOGGER.error("Error doing job: %s", context["message"], **kwargs)
 
 
