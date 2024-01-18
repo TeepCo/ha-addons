@@ -12,5 +12,5 @@ at TeepCo Cumulus Cloud server. Doing that, you can expose your Home Assistant t
 
 **To use this add-on, you have to own a domain name (e.g. example.com) and must be registered on TeepCo Cumulus Cloud.**
 
-[version-shield]: https://img.shields.io/badge/version-v0.2.1-blue.svg
+[version-shield]: https://img.shields.io/badge/version-v0.2.2-blue.svg
 [project-stage-shield]: https://img.shields.io/badge/project%20stage-testing-orange.svg
